@@ -84,3 +84,9 @@
   height: 70vh;
   flex-direction: column;
 } */
+
+/* gett all product card */
+.product-link {
+  text-decoration: none;
+  color: black;
+}
