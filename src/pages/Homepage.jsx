@@ -3,7 +3,7 @@ import Layout from "../components/Layout/Layout";
 import { UseAuth } from "../context/auth";
 import toast from "react-hot-toast";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Checkbox, Radio } from "antd";
 import { Prices } from "../components/Prices";
 
@@ -16,6 +16,7 @@ const Homepage = () => {
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   // Get Total Count
   const getTotal = async () => {
@@ -159,7 +160,11 @@ const Homepage = () => {
                   <h5 className="card-title">{p.name}</h5>
                   <p className="card-text">{p.description.substring(0, 50)}</p>
                   <p className="card-text">₹ {p.price}</p>
-                  <button to="" class="btn btn-primary ms-1">
+                  <button
+                    to=""
+                    class="btn btn-primary ms-1"
+                    onClick={() => navigate(`/product/${p.slug}`)}
+                  >
                     More Details
                   </button>
                   <button to="" class="btn btn-secondary ms-1">

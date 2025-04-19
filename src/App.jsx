@@ -20,6 +20,7 @@ import Profile from "./pages/user/Profile";
 import Products from "./pages/Admin/Products";
 import UpdateProduct from "./pages/Admin/UpdateProduct";
 import Search from "./pages/Search";
+import ProductDetails from "./pages/ProductDetails";
 
 function App() {
   return (
@@ -47,6 +48,7 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/policy" element={<Policy />} />
           <Route path="/search" element={<Search />} />
+          <Route path="/product/:slug" element={<ProductDetails />} />
           <Route path="/*" element={<PageNotFound />} />
         </Routes>
       </HelmetProvider>
