@@ -6,6 +6,7 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { Checkbox, Radio } from "antd";
 import { Prices } from "../components/Prices";
+import { useCart } from "../context/cart";
 
 const Homepage = () => {
   const [auth, setAuth] = UseAuth();
@@ -17,6 +18,7 @@ const Homepage = () => {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [cart, setCart] = useCart();
 
   // Get Total Count
   const getTotal = async () => {
@@ -167,7 +169,18 @@ const Homepage = () => {
                   >
                     More Details
                   </button>
-                  <button to="" class="btn btn-secondary ms-1">
+                  <button
+                    to=""
+                    className="btn btn-secondary ms-1"
+                    onClick={() => {
+                      setCart([...cart, p]);
+                      localStorage.setItem(
+                        "cart",
+                        JSON.stringify([...cart, p])
+                      );
+                      toast.success("Item added to cart");
+                    }}
+                  >
                     Add to Cart
                   </button>
                 </div>

@@ -8,15 +8,18 @@ import { HelmetProvider } from "react-helmet-async";
 import { AuthProvider } from "./context/auth";
 import { SearchProvider } from "./context/search";
 import "antd/dist/reset.css";
+import { CartProvider } from "./context/cart";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <HelmetProvider>
     <AuthProvider>
       <SearchProvider>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
+        <CartProvider>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </CartProvider>
       </SearchProvider>
     </AuthProvider>
   </HelmetProvider>

@@ -25,6 +25,10 @@
   font-weight: 300 !important;
 }
 
+.dropdown-item {
+  text-decoration: none !important;
+}
+
 .active {
   border-bottom: 1px solid black;
 }

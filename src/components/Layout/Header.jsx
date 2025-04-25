@@ -3,9 +3,14 @@ import { NavLink, Link } from "react-router-dom";
 import { UseAuth } from "../../context/auth";
 import toast from "react-hot-toast";
 import SearchInput from "../Form/SearchInput";
+import UseCategory from "../../hooks/useCategory";
+import { useCart } from "../../context/cart";
+import { Badge } from "antd";
 // import { GiShoppingBag } from 'react-icons/gi'
 
-const header = () => {
+const Header = () => {
+  const [cart] = useCart();
+  const categories = UseCategory();
   const [auth, setAuth] = UseAuth();
   const handleLogout = () => {
     setAuth({
@@ -44,10 +49,38 @@ const header = () => {
                   Home
                 </NavLink>
               </li>
-              <li className="nav-item">
-                <NavLink to="/categories" className="nav-link">
+              <li className="nav-item dropdown">
+                <NavLink
+                  to={"/categories"}
+                  className="nav-link dropdown-toggle"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
                   Categories
                 </NavLink>
+                <ul className="dropdown-menu">
+                  <li>
+                    <NavLink
+                      to={`/categories`}
+                      className="dropdown-item"
+                      style={{ textDecoration: "none" }}
+                    >
+                      All Categories
+                    </NavLink>
+                  </li>
+                  {categories?.map((c) => (
+                    <li key={c._id}>
+                      <NavLink
+                        to={`/category/${c.slug}`}
+                        className="dropdown-item"
+                        style={{ textDecoration: "none" }}
+                      >
+                        {c.name}
+                      </NavLink>
+                    </li>
+                  ))}
+                </ul>
               </li>
               {!auth.user ? (
                 <>
@@ -66,8 +99,8 @@ const header = () => {
                 <>
                   <div className="dropdown">
                     <NavLink
+                      to={`/dashboard/${auth?.user?.name}`}
                       className="nav-link dropdown-toggle"
-                      href="#"
                       role="button"
                       data-bs-toggle="dropdown"
                       aria-expanded="false"
@@ -101,9 +134,11 @@ const header = () => {
                 </>
               )}
               <li className="nav-item">
-                <NavLink to="/cart" className="nav-link">
-                  Cart (0)
-                </NavLink>
+                <Badge count={cart?.length}>
+                  <NavLink to="/cart" className="nav-link">
+                    Cart
+                  </NavLink>
+                </Badge>
               </li>
             </ul>
             {/* <form className="d-flex" role="search">
@@ -117,4 +152,4 @@ const header = () => {
   );
 };
 
-export default header;
+export default Header;
