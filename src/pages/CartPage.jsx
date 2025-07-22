@@ -3,6 +3,8 @@ import Layout from "../components/Layout/Layout";
 import { useCart } from "../context/cart";
 import { UseAuth } from "../context/auth";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { loadStripe } from "@stripe/stripe-js";
 
 const CartPage = () => {
   const [cart, setCart] = useCart();
@@ -33,6 +35,27 @@ const CartPage = () => {
       myCart.splice(index, 1);
       setCart(myCart);
       localStorage.setItem("cart", JSON.stringify(myCart));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // Payment Integration Using Stripe
+  const checkOutHandler = async () => {
+    try {
+      const stripe = await loadStripe(`${process.env.REACT_APP_STRIPE_KEY}`);
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_API}/api/v1/checkout/create-session`,
+        { products: cart } // body
+      );
+
+      const result = await stripe.redirectToCheckout({
+        sessionId: data.id,
+      });
+
+      if (result.error) {
+        console.log(result.error);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -112,6 +135,9 @@ const CartPage = () => {
                 Please Login to Checkout
               </button>
             )}
+            <button className="btn btn-primary" onClick={checkOutHandler}>
+              Checkout
+            </button>
           </div>
         </div>
       </div>
