@@ -46,7 +46,7 @@ const CartPage = () => {
       const stripe = await loadStripe(`${process.env.REACT_APP_STRIPE_KEY}`);
       const { data } = await axios.post(
         `${process.env.REACT_APP_API}/api/v1/checkout/create-session`,
-        { products: cart } // body
+        { products: cart, userId: auth?.user?._id } // body
       );
 
       const result = await stripe.redirectToCheckout({
